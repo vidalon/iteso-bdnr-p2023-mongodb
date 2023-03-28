@@ -1,3 +1,5 @@
 fastapi[all]
 pydantic
 pymongo
+uvicorn
+requests
