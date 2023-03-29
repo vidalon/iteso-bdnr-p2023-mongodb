@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
-from fastapi import APIRouter, Body, Request, Response, HTTPException, status
-from fastapi.encoders import jsonable_encoder
 from typing import List
+
+from fastapi import APIRouter, Body, HTTPException, Request, Response, status
+from fastapi.encoders import jsonable_encoder
 
 from model import Book, BookUpdate
 
@@ -19,8 +20,15 @@ def create_book(request: Request, book: Book = Body(...)):
 
 
 @router.get("/", response_description="Get all books", response_model=List[Book])
-def list_books(request: Request, rating: float = 0):
-    books = list(request.app.database["books"].find({"average_rating": {"$gte": rating}}))
+def list_books(request: Request, rating: float = 0, text_review_count: int = 0, ratings_count: int = 0, title: str = "", limit: int = 5, skip: int = 0):
+    books = list(request.app.database["books"].find(
+        {
+            "$or": [
+                {"average_rating": {"$gte": rating}},
+                {"ratings_count": {"$gte": ratings_count}},
+                {"text_review_count": {"$gte": text_review_count}},
+                {"title": {"$regex": title}}]
+        }, limit=limit, skip=skip))
     return books
 
 

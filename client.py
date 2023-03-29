@@ -2,8 +2,8 @@
 import argparse
 import logging
 import os
-import requests
 
+import requests
 
 # Set logger
 log = logging.getLogger()
@@ -67,6 +67,16 @@ def main():
             help="Provide a book ID which related to the book action", default=None)
     parser.add_argument("-r", "--rating",
             help="Search parameter to look for books with average rating equal or above the param (0 to 5)", default=None)
+    parser.add_argument("-rc", "--ratings_count",
+            help="Search parameter to look for books with rating count equal or above the param (0 to infinity)", default=None)
+    parser.add_argument("-trc", "--text_review_count",
+            help="Search parameter to look for books with text review count equal or above the param (0 to infinity)", default=None)
+    parser.add_argument("-t", "--title",
+            help="Search parameter to look for books with title containing the provided text", default=None)
+    parser.add_argument("-l", "--limit",
+            help="Number of records to return (default=5)", default=None)
+    parser.add_argument("-s", "--skip",
+            help="Number of pages to skip (default=0)", default=None)
 
     args = parser.parse_args()
 
